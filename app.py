@@ -21,8 +21,6 @@ from sklearn.pipeline import Pipeline
 
 from sklearn.cluster import AgglomerativeClustering
 
-from tqdm import tqdm
-
 from collections import Counter
 from itertools import combinations
 
@@ -50,8 +48,8 @@ def matriz_co_ocorrencia_rapida(df_pedidos):
     # Agrupa os pedidos por ID
     df_grouped = df_pedidos.groupby('order_id')['sku_id'].agg(list)
 
-    # Adiciona tqdm no loop
-    for produtos in tqdm(df_grouped, desc="Processando pedidos"):
+    
+    for produtos in df_grouped:
         produtos = list(set(produtos))  # opcional: evita repetição de SKU no mesmo pedido
         pares = combinations(sorted(produtos), 2)
         pares_contagem.update(pares)
@@ -231,7 +229,7 @@ def reposicionamento(clim,):
   df_final = pd.DataFrame()
 
   # Loop dentro das ruas para preenche-las
-  for rua in tqdm(list(ruas.keys()), desc='Ruas analisadas'):
+  for rua in list(ruas.keys()):
     # Verificando a qnt de posições disponíveis na rua no total
     posicoes = ruas[rua]
 
